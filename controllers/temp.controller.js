@@ -11,7 +11,14 @@ tempController.getTemps = async(req, res) => {
         page:parseInt(page, 10) || 1,
         limit: parseInt(perPage, 10)|| 10
     };
-    const temps = await tempModel.paginate({fecha: fecha}, optionsPagination);
+    //si hay una fecha en la url
+    if(fecha){
+        var temps = await tempModel.paginate({fecha: fecha}, optionsPagination);
+    }
+    //si no hay una fecha mostrará todas las temperaturas
+    else{
+        var temps = await tempModel.paginate({}, optionsPagination);
+    }
     //QUERY PARA MOSTRAR TEMPERATURAS ALTAS OCULTAMOS LAS TEMPERATURAS NORMALES Y LAS DEMAS Y SOLO DEJAMOS LAS ALTAS
     /*const query = {hora:0, fecha:0};
     const temps = await tempModel.find({}, query);*/
